@@ -4,6 +4,25 @@
   
     
     <entry>
+      <title>docker搭建私有gitlab仓库</title>
+      <link href="/2022/12/06/docker%E6%90%AD%E5%BB%BA%E7%A7%81%E6%9C%89gitlab%E4%BB%93%E5%BA%93/"/>
+      <url>/2022/12/06/docker%E6%90%AD%E5%BB%BA%E7%A7%81%E6%9C%89gitlab%E4%BB%93%E5%BA%93/</url>
+      
+        <content type="html"><![CDATA[<h3 id="安装gitlab"><a href="#安装gitlab" class="headerlink" title="安装gitlab"></a>安装gitlab</h3><ol><li>拉取镜像, 这里直接使用官方的社区版<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker pull gitlab/gitlab-ce</span><br></pre></td></tr></table></figure></li><li>创建文件目录, 用来存放gitlab相关信息<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mkdir -pv /data/gitlab</span><br></pre></td></tr></table></figure></li><li>运行创建容器的命令, 运行前需要确认端口未被占用<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">docker run --detach \</span><br><span class="line">--hostname 10.8.8.6 \</span><br><span class="line">-p 50443:443 \</span><br><span class="line">-p 50080:80 \</span><br><span class="line">-p 50022:22 \</span><br><span class="line">--name gitlab \</span><br><span class="line">--restart always \</span><br><span class="line">-v /data/gitlab/config:/etc/gitlab \</span><br><span class="line">-v /data/gitlab/logs:/var/log/gitlab \</span><br><span class="line">-v /data/gitlab/data:/var/opt/gitlab \</span><br><span class="line">-v /etc/localtime:/etc/localtime \</span><br><span class="line">gitlab/gitlab-ce:latest</span><br></pre></td></tr></table></figure>参数说明:<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">--name gitlab: 指定容器名为gitlab</span><br><span class="line">-p 50080:80: 将容器的80端口映射到宿主机上的50080端口上</span><br><span class="line">-v :将本机的当前目录挂在到容器的目录上去 $(本地目录):/$(容器目录)</span><br></pre></td></tr></table></figure></li><li>容器启动需要一点时间, 使用<code>docker logs -f gitlab</code>查看进度</li><li>安装成功后访问地址<a href="yourhost:50080"></a>进入gitlab登录页<br>账号: root<br>密码: 刚才配置映射的<code>/data/gitlab/config</code>下的<code>initial_root_password</code>文件中, 需要尽快修改称自己的密码</li></ol><p>参考:<br><a href="https://caojie.blog/?p=1855">博客</a>, <a href="https://www.51cto.com/article/672997.html">51cto</a></p>]]></content>
+      
+      
+      
+        <tags>
+            
+            <tag> gitlab docker </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>docker使用</title>
       <link href="/2022/12/03/docker%E4%BD%BF%E7%94%A8/"/>
       <url>/2022/12/03/docker%E4%BD%BF%E7%94%A8/</url>
